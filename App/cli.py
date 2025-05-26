@@ -83,7 +83,7 @@ def portfolio_prompt():
             userid_input = input("Enter user ID to view portfolios: ")
             try:
                 userid_input = int(userid_input)
-                portfolios= get_portfolio_by_user(userid_input)
+                portfolios= get_portfolios_by_user(userid_input)
                 if len(portfolios) == 0:
                     print(colored(f"No portfolios found for user ID {userid_input}", 'red'))
                 for portfolio in portfolios:
@@ -112,7 +112,7 @@ def market_prompt():
             portfolio_id_input = input("Enter portfolio ID to view investments: ")
             try:
                 portfolio_id = int(portfolio_id_input)
-                investments= get_investment_by_portfolio(portfolio_id)
+                investments= get_investments_by_portfolio(portfolio_id)
                 if len(investments) == 0:
                     print(colored(f"No investments found for portfolio ID {portfolio_id}", 'red'))
                 for investment in investments:
