@@ -28,6 +28,5 @@ def authenticate_user(username: str, password:str):
         user = password_matches(username, password)
         return jsonify(user.to_dict()), 200
     except Exception as e:
-        return jsonify ({"message": f"Failed to authenticate user {username}: {str(e)}"})
-    
-    
+        return jsonify ({"message": f"Failed to authenticate user {username}: {str(e)}"}), 500
+
