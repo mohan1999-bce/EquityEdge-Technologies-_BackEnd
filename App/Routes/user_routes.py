@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from App.Services.user_dao import create_user, get_all, password_matches
+from App.Services.user_dao import create_user, get_all, password_matches, update_balance, get_balance
 
 user_bp = Blueprint('user', __name__)
 
@@ -30,3 +30,29 @@ def authenticate_user(username: str, password:str):
     except Exception as e:
         return jsonify ({"message": f"Failed to authenticate user {username}: {str(e)}"}), 500
 
+@user_bp.route('/update-balance/<int:user_id>', methods=['PUT'])
+def update_user_balance(user_id):
+    try:
+        data = request.get_json()
+        new_balance = data.get('balance')
+        if new_balance is None:
+            return jsonify({"message": "Balance is required"}), 400
+        user = update_balance(user_id, float(new_balance))
+        return jsonify({
+            "message": "Balance updated successfully",
+            "new_balance": user.balance
+        }), 200
+    except QueryException as e:
+        return jsonify({"message": str(e)}), 404
+    except Exception as e:
+        return jsonify({"message": str(e)}), 500
+    
+@user_bp.route('/get-balance/<int:user_id>', methods=['GET'])
+def get_user_balance(user_id):
+    try:
+        balance = get_balance(user_id)
+        return jsonify({'balance': balance}), 200
+    except QueryException as e:
+        return jsonify({'message': str(e)}), 404
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500

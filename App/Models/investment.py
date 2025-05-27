@@ -1,7 +1,7 @@
 from App.extensions import db
 
 class Investment(db.Model):
-    __tablename__ = 'Investment'
+    __tablename__ = 'Investments'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     portfolio_id = db.Column(db.Integer, nullable=False)
     ticker = db.Column(db.String, nullable = False)
